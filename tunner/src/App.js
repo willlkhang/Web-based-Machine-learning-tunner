@@ -1,15 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
-import Button from 'react-bootstrap/Button'
-import 'bootstrap/dist/css/bootstrap.min.css'
+
+import React, {useEffect, useState} from 'react';
+
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:9000');
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-
-        <Button> Test Button</Button>
 
         <p>
           Edit <code>src/App.js</code> and save to reload.

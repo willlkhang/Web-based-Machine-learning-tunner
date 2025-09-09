@@ -1,0 +1,33 @@
+.form{
+    --bs-border-color: #356168;
+}
+
+.button-container{
+    display: flex;
+    justify-content: space-evenly;
+
+    .submit-button,
+    .reset-button{
+        border: 2px solid black; /*curved border*/
+        border-radius: 20px;
+        padding: 10px 20px;
+        background-color: white;
+        color: black;
+        transition: background-color 0.3s, color 0.3s;
+        margin-right: 10px; 
+    }
+
+    .submit-button:hover{
+        background-color: rgb(
+            100, 225, 100
+        ); /*light green background*/
+        color: white;
+    }
+
+    .reset-button:hover{
+        background-color: rgb(
+            228, 73, 73
+        );
+        color: white;
+    }
+}
