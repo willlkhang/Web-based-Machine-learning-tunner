@@ -1,0 +1,6 @@
+#header{
+    display: flex;
+    justify-content: flex-start;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #356168;
+}

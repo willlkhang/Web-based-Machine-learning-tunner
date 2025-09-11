@@ -1,0 +1,12 @@
+.message-container {
+    display: flex;
+    color: #356168;
+
+    .time-comp{
+        width: 20%;
+    }
+
+    .message-comp {
+        width: 80%;
+    }
+}

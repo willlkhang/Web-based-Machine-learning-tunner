@@ -9,7 +9,7 @@ const SimpleForm=({
     lr,
     size,
     setEpochs,
-    setlr,
+    setLr,
     setSize,
     submitJob,
     resetFields,
@@ -102,7 +102,7 @@ const SimpleForm=({
 							min={0}
                             max={1}
 							onChange={(e) => {
-								setEpochs(e.target.value);
+								setLr(e.target.value);
 							}}
 						/>
                     </Form.Group>   
@@ -113,7 +113,7 @@ const SimpleForm=({
 							value={size}
 							min={1}
 							onChange={(e) => {
-								setEpochs(e.target.value);
+								setSize(e.target.value);
 							}}
 						/>
                     </Form.Group>    
