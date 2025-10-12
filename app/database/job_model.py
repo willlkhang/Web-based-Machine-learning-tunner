@@ -10,3 +10,4 @@ class Job(Document):
     time_finished = ComplexDateTimeField(default=None)
     run_time = FloatField(default=None)
     accuracy = FloatField(default=None)
+
