@@ -1,0 +1,10 @@
+.no-message {
+    color: #60a5fa;
+}
+
+.message-board {
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    height: 100%;
+}
