@@ -1,5 +1,5 @@
 from mongoengine import *
-import datatime
+import datetime
 
 class Job(Document):
     epochs = IntField(required=True, default=5, min_value=1, max_value=9999) #initialize this limit, however, the UI will raise exception if ti exceeds the defined limits.
