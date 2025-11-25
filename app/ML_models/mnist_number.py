@@ -2,32 +2,40 @@ import torch
 import time
 from torchvision import datasets, transforms
 import torch.nn as nn
-import torch.nn.functional as F
+#import torch.nn.functional as F
 
 def load_data(batch_size=64):
     transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
+
     trainset = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
     testset = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
+
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True)
     testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size, shuffle=False)
+    
     return trainloader, testloader
 
 # Define the Model
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.fc1 = nn.Linear(28*28, 256)
-        self.fc2 = nn.Linear(256, 128)
-        self.fc3 = nn.Linear(128, 64)
-        self.fc4 = nn.Linear(64, 10)
+
+        self.net = nn.Sequential(
+            nn.Flatten(),
+
+            nn.Linear(28*28, 256),
+            nn.ReLU(inplace=True),
+            nn.Linear(256, 128),
+            nn.ReLU(inplace=True),
+            nn.Linear(128, 64),
+            nn.ReLU(inplace=True),
+            nn.Linear(64, 10),
+
+            nn.log_softmax(dim=1)
+        )
 
     def forward(self, x):
-        x = x.view(-1, 28*28)  # Flatten the images
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = F.relu(self.fc3(x))
-        x = F.log_softmax(self.fc4(x), dim=1)
-        return x
+        return self.net(x)
 
 class MNISTModel:
     def __init__(self):
