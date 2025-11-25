@@ -4,6 +4,7 @@ import './App.css';
 import React, {useEffect, useState} from 'react';
 import io from 'socket.io-client';
 
+//import UI component
 import DataTable from '.components/DataTable';
 import Form from '.components/Form';
 import Gear from '.components/Gear';

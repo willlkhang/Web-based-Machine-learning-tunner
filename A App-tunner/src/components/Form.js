@@ -14,15 +14,17 @@ const SimpleForm=({
     submitJob,
     resetFields,
 }) => {
-    const [showToast, setShowToast] = useState(false);
-    const [message, setMessage] = useState('');
-    const isInteger = (str) =>{
-        return /^d+$/.test(str);
+    const [showToast, setShowToast] = useState(false); //setup for toast
+    const [message, setMessage] = useState(''); //set for content in toast
+
+    const isInteger = (str) =>{ //check if the input is int
+        return /^d+$/.test(str); 
     }
 
-    const healthcheck = () => {
+    const healthcheck = () => { //method check if the hyperparam input is valid
         let warning = '';
         let flag = true;
+        
         if(epochs === '' || lr === '' || size === ''){
             warning += '- Form cannot be empty\n';
             return { warning: warning, flag: false};
@@ -35,7 +37,7 @@ const SimpleForm=({
             warning += '- Batc h size must be a positive integer\n';
             return { warning: warning, flag: false};
         }
-
+        //check valid input
         const intEpoch = parseInt(epochs);
         const floatlr = parseFloat(lr);
         const intSize = parseInt(size);
