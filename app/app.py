@@ -59,7 +59,7 @@ def initialize_key(key):
 def home():
     return "Hom API. This is Will's web"
 
-@app.route('/create-job')
+@app.post('/create-job')
 def create_job():
     data = {} #setup hyperparam
     data['epochs'] = initialize_key('epochs')
@@ -90,3 +90,26 @@ def create_job():
     )
 
     return response
+
+@app.get('/get-job')
+def get_job():
+    object = Job.objects.order_by("-accuracy").limit(10)
+    response = make_response(jsonify({
+        'message': 'Here are the best Arch Hyperparameters',
+        'data': object.to_json()
+    }))
+    return response
+
+@app.get('/find-job')
+def find_job():
+    epochs = int(request.args.get('epochs'))
+    learning_rate = float(request.args.get('learning_rate'))
+    batch_size = int(request.args.get('batch_size'))
+    job = Job.objects(epochs=epochs, learning_rate=learning_rate, batch_size=batch_size).first()
+    response = make_response(jsonify({
+        'data': job.to_json()
+    }))
+    return response
+
+if __name__ == '__main__':
+    socketio.run(app, port=9000, allow_unsafe_werkzeug=True)
