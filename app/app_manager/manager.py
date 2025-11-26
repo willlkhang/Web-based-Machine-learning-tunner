@@ -2,7 +2,7 @@ import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-from ML_models.mnist_number import *
+from ML_models.mnist_number import load_data, MLP, MNISTModel
 from database.job_model import Job
 
 import torch.nn as nn 
@@ -16,7 +16,7 @@ class Manager:
         self.soketio = socketio
 
     def start_experiment(self, hyperparams):
-        batch_size = hyperparams['batch_sze']
+        batch_size = hyperparams['batch_size']
         learning_rate = hyperparams['learning_rate']
         epochs = hyperparams['epochs']
 
@@ -36,7 +36,7 @@ class Manager:
         accuracy = mnistmodel.evaluate_model(model, testloader)
         mnistmodel.save_model(model)
 
-        Job.__objects(epochs=epochs, 
+        Job.objects(epochs=epochs, 
                       learning_rate=learning_rate, 
                       batch_size=batch_size).update_one(set__status=True, 
                                                         set__time_finished=datetime.datetime.now(datetime.UTC), 

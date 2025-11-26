@@ -1,38 +1,149 @@
-.App {
-  text-align: center;
+html,
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+/*Borders + margins to visualize the boxes*/
+.main-container {
+	display: flex;
+	border: 1px solid black;
+	flex-direction: column;
+	background-color: #dce9e5;
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+	.top-container {
+		display: flex;
+		flex-direction: row;
+		/* margin: 1px;
+		border: 2px solid orange; */
+		height: 600px;
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+		.left-container {
+			display: flex;
+			flex-direction: column;
+			/* margin: 1px;
+			border: 2px solid blue; */
+			width: 35%;
 
-.App-link {
-  color: #61dafb;
-}
+			.header-container {
+				display: flex;
+				flex-direction: row;
+				/* margin: 1px;
+				border: 2px solid red; */
+				height: 20%;
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+				.gear-comp {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					/* margin: 1px;
+					border: 2px solid black; */
+					width: 30%;
+					padding-bottom: 10px;
+					padding-right: 10px;
+				}
+
+				.header-comp {
+					/* margin: 1px;
+					border: 2px solid black; */
+					width: 70%;
+				}
+			}
+
+			.form-container {
+				display: flex;
+				justify-content: flex-end;
+				/* margin: 1px;
+				border: 2px solid red; */
+				height: 80%;
+
+				.form-comp {
+					/* margin: 1px;
+					border: 2px solid black; */
+					height: 100%;
+					width: 80%;
+					background-color: whitesmoke;
+				}
+			}
+		}
+
+		.right-container {
+			display: flex;
+			flex-direction: column;
+			/* margin: 1px;
+			border: 2px solid blue; */
+			width: 65%;
+
+			.message-board-container {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-end;
+				/* margin: 1px;
+				border: 2px solid red; */
+				height: 70%;
+
+				.message-board-title {
+					display: flex;
+					height: 10%;
+					width: 70%;
+					/* margin: 1px;
+					border: 2px solid black; */
+				}
+
+				.message-board-table {
+					display: flex;
+					flex-direction: column;
+					margin: 1px;
+					border: 2px solid #356168;
+					border-radius: 20px;
+					padding: 5px;
+					height: 90%;
+					width: 70%;
+					background-color: whitesmoke;
+				}
+			}
+
+			.progress-bar-container {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				/* margin: 1px;
+				border: 2px solid red; */
+				height: 30%;
+				width: 95%;
+				margin-left: auto;
+
+				.progress-bar-timer-comp {
+					/* margin: 1px;
+					border: 2px solid black; */
+					height: 50%;
+					width: 40%;
+					color: #356168;
+				}
+
+				.progress-bar-comp {
+					/* margin: 1px;
+					border: 2px solid black; */
+					height: 50%;
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	.bot-container {
+		display: flex;
+		justify-content: center;
+		/* margin: 1px;
+		border: 2px solid orange; */
+		height: 600px;
+		padding-top: 50px;
+
+		.job-board-comp {
+			/* margin: 1px;
+			border: 2px solid black; */
+			width: 80%;
+		}
+	}
 }

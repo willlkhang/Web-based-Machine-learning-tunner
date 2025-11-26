@@ -12,13 +12,13 @@ def load_data(batch_size=64):
 
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True)
     testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size, shuffle=False)
-    
+
     return trainloader, testloader
 
 # Define the Model
-class Net(nn.Module):
+class MLP(nn.Module):
     def __init__(self):
-        super(Net, self).__init__()
+        super(MLP, self).__init__()
 
         self.net = nn.Sequential(
             nn.Flatten(),
@@ -31,7 +31,7 @@ class Net(nn.Module):
             nn.ReLU(inplace=True),
             nn.Linear(64, 10),
 
-            nn.log_softmax(dim=1)
+            nn.LogSoftmax(dim=1)
         )
 
     def forward(self, x):

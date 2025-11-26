@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styling/ProgressTimer.css';
+import '../style/ProgressTimer.css';
 
 const ProgressTimer = ({ progressData }) => {
 	const { time } = progressData;

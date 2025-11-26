@@ -14,7 +14,7 @@ class Job(Document):
     @classmethod
     def create_or_get_job(cls, epochs, learning_rate, batch_size):
         #check exist data
-        job = cls.__objects(epochs=epochs, learning_rate=learning_rate, batch_size=batch_size).first() #find and return the first match data of the object from the database
+        job = cls.objects(epochs=epochs, learning_rate=learning_rate, batch_size=batch_size).first() #find and return the first match data of the object from the database
         if job:
             print("An Architecture of this Hyperparameter configuration is already exist")
             return "An Architecture of this Hyperparameter configuration is already exist", job

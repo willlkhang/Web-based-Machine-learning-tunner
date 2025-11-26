@@ -1,6 +1,6 @@
-import useState from 'react' /**allow me to add state variable to my components */
+import { useState } from 'react' /**allow me to add state variable to my components */
 import Button from 'react-bootstrap/Button';
-import From from 'react-bootstrap/Form';
+import Form from 'react-bootstrap/Form';
 import ToastComponent from './Toast'; /**for tost message */
 import "../style/Form.css"
 
@@ -18,13 +18,13 @@ const SimpleForm=({
     const [message, setMessage] = useState(''); //set for content in toast
 
     const isInteger = (str) =>{ //check if the input is int
-        return /^d+$/.test(str); 
+        return /^\d+$/.test(str); 
     }
 
     const healthcheck = () => { //method check if the hyperparam input is valid
         let warning = '';
         let flag = true;
-        
+
         if(epochs === '' || lr === '' || size === ''){
             warning += '- Form cannot be empty\n';
             return { warning: warning, flag: false};
@@ -34,10 +34,10 @@ const SimpleForm=({
             return { warning: warning, flag: false};
         }
         if(!isInteger(size)){
-            warning += '- Batc h size must be a positive integer\n';
+            warning += '- Batc h size must be a positive integern';
             return { warning: warning, flag: false};
         }
-        //check valid input
+        //parsing input
         const intEpoch = parseInt(epochs);
         const floatlr = parseFloat(lr);
         const intSize = parseInt(size);
@@ -53,14 +53,14 @@ const SimpleForm=({
 
         if(floatlr <= 0 || floatlr >1){
             warning += '- Please enter the between 0 to 1 (0-1)\n';
-            flag += false;
+            flag = false;
         }
 
         if(intSize < 1){
             warning += '- Batch size must be at least 1';
             flag = false;
         }
-        else if(inSze > 512){
+        else if(intSize > 512){
             warning += '- Please enter below 512 to avoid jamming the system';
             flag = false;
         }
@@ -77,12 +77,12 @@ const SimpleForm=({
         else{
             setMessage(warning);
             setShowToast(true);
-            console.log('health check failed');
+            console.log('health check failed'); 
         }
     };
 
     return (
-        <div className='form h-100 d-inline-block w-100 p-3 border border-5'>
+        <div className='form h-100 d-inline-block w-100 p-3 border border-5'> 
             <div>
                 <Form className='h-100 w-100'>
                     <Form.Group className='my-3'>
@@ -96,10 +96,11 @@ const SimpleForm=({
 							}}
 						/>
                     </Form.Group>
+
                     <Form.Group className='my-3'>
                         <Form.Label>Learning Rate</Form.Label>
                         <Form.Control
-							type='number's
+							type='number'
 							value={lr}
 							min={0}
                             max={1}
@@ -108,6 +109,7 @@ const SimpleForm=({
 							}}
 						/>
                     </Form.Group>   
+
                     <Form.Group className='my-3'>
                         <Form.Label>Batch Size</Form.Label>
                         <Form.Control
@@ -119,6 +121,7 @@ const SimpleForm=({
 							}}
 						/>
                     </Form.Group>    
+
                     <div className='button-container'>
                         <Button
                             className='submit-button'
@@ -139,6 +142,7 @@ const SimpleForm=({
                     </div>          
                 </Form>
             </div>
+
             <div className='mt-2'>
                 <ToastComponent
                     showToast={showToast}
@@ -146,6 +150,7 @@ const SimpleForm=({
                     message={message}
                 />
             </div>
+
         </div>
     );
 };

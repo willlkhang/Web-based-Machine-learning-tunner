@@ -1,6 +1,7 @@
 import React from 'react';
-import '.../style/MessageBoard.css';
+import '../style/MessageBoard.css';
 import Message from './Message';
+
 
 const MessageBoard = ({messages}) => {
     if (!messages || messages.length === 0) {
@@ -13,8 +14,8 @@ const MessageBoard = ({messages}) => {
     return (
         <div className='message-board'>
             {messages.map((item, index) => (
-                <Message key={index} time={time.time} message={item.message}/>
-            ))};
+                <Message key={index} time={item.time} message={item.message}/>
+            ))}
         </div>
     );
 };
