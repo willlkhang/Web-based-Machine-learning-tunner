@@ -1,4 +1,23 @@
 .progress-bar{
     display: flex;
     flex-direction: row !important;
+    --bs-border-color: #316168;
+
+    .progress-bar {
+        background-color: whitesmoke;
+        margin: 0px 1px;
+        width: 10%;
+    }
+
+    .progress-block:first-child {
+        margin-left: 0;
+    }
+
+    .progress-block:last-child {
+        margin-right: 0;
+    }
+
+    .progress-block.active {
+        background-color: 316168;
+    }
 }
