@@ -38,7 +38,7 @@ const DataTable = ({ table }) => {
 
     return(
         <div>
-            <p className='title'>Top job configuration</p>
+            <p className='title'>Top job configurations</p>
             <Table bordered hover>
                 <thread>
                     <tr>
