@@ -14,7 +14,7 @@ const MessageBoard = ({messages}) => {
     return (
         <div className='message-board'>
             {messages.map((item, index) => (
-                <Message key={index} time={item.time} message={item.message}/>
+                <Message key={index} time={item.time} message={item.message} />
             ))}
         </div>
     );

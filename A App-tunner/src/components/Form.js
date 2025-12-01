@@ -70,7 +70,7 @@ const SimpleForm=({
     
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        const { warning, flag} = healthcheck();
+        const { warning, flag } = healthcheck();
         if (flag){
             submitJob();
         }

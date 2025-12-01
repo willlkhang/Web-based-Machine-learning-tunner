@@ -11,13 +11,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './App.css';
 
-const socket = io(`http://localhost:9000`);
+const BACKEND_API = `http://localhost:9000`
+const socket = io(BACKEND_API); //Link to FLASK BACKEND
 
 function App() {
+
+	//initial states for all pramas
 	const [progressData, setProgressData] = useState({
 		time: 0,
 		total_progress: 0,
 	});
+
 	const [epochs, setEpochs] = useState('');
 	const [lr, setLr] = useState('');
 	const [size, setSize] = useState('');
@@ -26,54 +30,62 @@ function App() {
 	const d = new Date();
 
 	const getJobs = () => {
-		const url = `http://localhost:9000/get-jobs`;
+		const url = `${BACKEND_API}/get-jobs`;
+
 		fetch(url)
-			.then((response) => response.json())
-			.then((data) => {
+			.then((response) => response.json()).then((data) => {
+
 				const jsonData = JSON.parse(data.data);
+
 				const formattedData = jsonData.map((item) => {
-					const id = item._id.$oid;
-					return { id, ...item };
+					const id = item._id.$oid; //fetch ID
+					return { id, ...item }; //return new object
 				});
+
 				setTable(formattedData);
 			})
 			.catch((error) => console.error('Fetch error:', error));
 	};
 
-	useEffect(() => {
-		const handleResponse = (data) => {
-			const { time, total_progress } = data;
-			setProgressData({
-				time: parseFloat(time),
-				total_progress: parseFloat(total_progress),
+	const findJob = (params) => {
+		const queryParams = new URLSearchParams(params).toString(); 
+
+		const url = `${BACKEND_API}/find-job?${queryParams}`;
+
+		const options = {
+			method: 'GET',
+		};
+
+		fetch(url, options)
+			.then((response) => response.json()).then((data) => {
+
+				const job = JSON.parse(data.data);
+				const messageContent = `Job configuration {epochs: ${job.epochs},`+ 
+										`learning_rate: ${job.learning_rate},`+
+										`batch_size: ${job.batch_size}} finished in ${job.run_time} seconds.`+ 
+										`Calculated accuracy: ${job.accuracy}%`;
+				const doneMessage = {
+					time: d.toLocaleTimeString(),
+					message: messageContent,
+				};
+				// Using setState's callback to ensure doneMessage is added after submitMessage
+				setMessages((prevMessages) => {
+					const newMessages = [doneMessage, ...prevMessages];
+					return newMessages.slice(0, 10);
+				});
 			});
-		};
-
-		const handleExperimentDone = (data) => {
-			findJob(data);
-			getJobs();
-		};
-
-		socket.on('response', handleResponse);
-		socket.on('experiment_done', handleExperimentDone);
-		getJobs();
-
-		return () => {
-			// Not sure if needed
-			socket.off('response', handleResponse);
-			socket.off('experiment_done', handleExperimentDone);
-		};
-		// eslint-disable-next-line
-	}, []);
+	};
 
 	const submitJob = () => {
-		const url = `http://localhost:9000/create-job`;
+
+		const url = `${BACKEND_API}/create-job`;
+
 		const options = {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
+				'Content-Type': 'application/json', //telling backend, slient is sending json
 			},
-			body: JSON.stringify({
+			body: JSON.stringify({ //packing config in json string
 				epochs: epochs,
 				learning_rate: lr,
 				batch_size: size,
@@ -85,16 +97,19 @@ function App() {
 			.then((data) => {
 
 				if (!data.data) {
+
 					const errorMessage = {
 						time: d.toLocaleTimeString(),
 						message: `Error: ${data.message}`, // Show the backend error
 					};
+
 					setMessages((prevMessages) => [errorMessage, ...prevMessages]);
 					return; // Stop here,
 				}
 
 				let messageContent = data.message;
 				const job = JSON.parse(data.data);
+				
 				if (job !== null) {
 					if (job.status === true) {
 						// status only true if job is done + updated to table
@@ -102,6 +117,7 @@ function App() {
 					} else {
 						messageContent += ` Job currently in queue waiting to be processed`;
 					}
+
 					const doneMessage = {
 						time: d.toLocaleTimeString(),
 						message: messageContent,
@@ -116,30 +132,31 @@ function App() {
 			});
 	};
 
-	const findJob = (params) => {
-		const queryParams = new URLSearchParams(params).toString();
-		const url = `http://localhost:9000/find-job?${queryParams}`;
+	useEffect(() => { //listener for event sent by backend
 
-		const options = {
-			method: 'GET',
+		const handleResponse = (data) => {
+			const { time, total_progress } = data;
+			setProgressData({
+				time: parseFloat(time),
+				total_progress: parseFloat(total_progress),
+			});
 		};
 
-		fetch(url, options)
-			.then((response) => response.json())
-			.then((data) => {
-				const job = JSON.parse(data.data);
-				const messageContent = `Job configuration {epochs: ${job.epochs}, learning_rate: ${job.learning_rate}, batch_size: ${job.batch_size}} finished in ${job.run_time} seconds. Calculated accuracy: ${job.accuracy}%`;
-				const doneMessage = {
-					time: d.toLocaleTimeString(),
-					message: messageContent,
-				};
-				// Using setState's callback to ensure doneMessage is added after submitMessage
-				setMessages((prevMessages) => {
-					const newMessages = [doneMessage, ...prevMessages];
-					return newMessages.slice(0, 10);
-				});
-			});
-	};
+		const handleExperimentDone = (data) => {
+			findJob(data);
+			getJobs();
+		};
+
+		socket.on('response', handleResponse); //backend sends training process for the bar updates in real-time
+		socket.on('experiment_done', handleExperimentDone); //update with accuracy
+
+		getJobs();
+
+		return () => { //close socket
+			socket.off('response', handleResponse); 
+			socket.off('experiment_done', handleExperimentDone);
+		};
+	}, []);
 
 	const resetFields = () => {
 		setEpochs('');
@@ -176,24 +193,25 @@ function App() {
 				</div>
 				<div className='right-container'>
 					<div className='message-board-container'>
-						{/* <div className='message-board-title'>
+						<div className='message-board-title'>
 							<p className='fs-3 text-center w-100'>MESSAGE BOARD</p>
-						</div> */}
+						</div>
 						<div className='message-board-table mt-5'>
 							<MessageBoard messages={messages}></MessageBoard>
 						</div>
 					</div>
 					<div className='progress-bar-container'>
 						<div className='progress-bar-timer-comp'>
-							<ProgressTimer progressData={progressData} />
+							{/* <ProgressTimer progressData={progressData} /> */}
 						</div>
 						<div className='progress-bar-comp'>
+							<ProgressTimer progressData={progressData} />
 							<ProgressBar progressData={progressData} />
 						</div>
 					</div>
 				</div>
 			</div>
-			<div className='bot-container'>
+			<div className='bottom-container'>
 				<div className='job-board-comp'>
 					<DataTable table={table} />
 				</div>
