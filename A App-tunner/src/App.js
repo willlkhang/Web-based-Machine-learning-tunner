@@ -6,7 +6,7 @@ import DataTable from './components/DataTable';
 import ProgressBar from './components/ProgressBar';
 import MessageBoard from './components/MessageBoard';
 import ProgressTimer from './components/ProgressTimer';
-import Gear from './components/Gear';
+import Icon from './components/Icon';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './App.css';
@@ -30,7 +30,7 @@ function App() {
 	const d = new Date();
 
 	const getJobs = () => {
-		const url = `${BACKEND_API}/get-jobs`;
+		const url = `${BACKEND_API}/get-job`;
 
 		fetch(url)
 			.then((response) => response.json()).then((data) => {
@@ -156,6 +156,7 @@ function App() {
 			socket.off('response', handleResponse); 
 			socket.off('experiment_done', handleExperimentDone);
 		};
+		
 	}, []);
 
 	const resetFields = () => {
@@ -169,8 +170,8 @@ function App() {
 			<div className='top-container'>
 				<div className='left-container'>
 					<div className='header-container'>
-						<div className='gear-comp'>
-							<Gear />
+						<div className='icon-comp'>
+							<Icon />
 						</div>
 						<div className='header-comp'>
 							<Header id='header' />
@@ -202,15 +203,16 @@ function App() {
 					</div>
 					<div className='progress-bar-container'>
 						<div className='progress-bar-timer-comp'>
-							{/* <ProgressTimer progressData={progressData} /> */}
+							<ProgressTimer progressData={progressData} />
 						</div>
 						<div className='progress-bar-comp'>
-							<ProgressTimer progressData={progressData} />
+							{/* <ProgressTimer progressData={progressData} /> */}
 							<ProgressBar progressData={progressData} />
 						</div>
 					</div>
 				</div>
 			</div>
+			
 			<div className='bottom-container'>
 				<div className='job-board-comp'>
 					<DataTable table={table} />

@@ -10,7 +10,7 @@ body {
 	display: flex;
 	border: 1px solid black;
 	flex-direction: column;
-	background-color: #dce9e5;
+	background-color: #f0f2f5;
 
 	.top-container {
 		display: flex;
@@ -33,7 +33,7 @@ body {
 				border: 2px solid red; */
 				height: 20%;
 
-				.gear-comp {
+				.icon-comp {
 					display: flex;
 					justify-content: center;
 					align-items: center;

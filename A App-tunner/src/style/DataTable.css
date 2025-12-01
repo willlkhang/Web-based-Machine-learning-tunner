@@ -1,20 +1,18 @@
-/* title class */
-.title{
-    text-align: center;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 32px;
-    color: #356168;
+.title {
+	text-align: center;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 32px;
+	color: #356168;
 }
 
-/* these classes are for ranking on the dashboard */
-.gold{
-    background-color: gold !important; 
+.gold {
+	background-color: gold !important;
 }
 
-.silver{
-    background-color: silver !important;
+.silver {
+	background-color: silver !important;
 }
 
-.bronze{
-    background-color: burlywood !important;   
+.bronze {
+	background-color: burlywood !important;
 }

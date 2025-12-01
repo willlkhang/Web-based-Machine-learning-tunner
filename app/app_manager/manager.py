@@ -13,7 +13,7 @@ import datetime
 
 class Manager:
     def __init__ (self, socketio):
-        self.soketio = socketio
+        self.socketio = socketio
 
     def start_experiment(self, hyperparams):
         batch_size = hyperparams['batch_size']
@@ -48,7 +48,7 @@ class Manager:
         return accuracy, run_time
 
     def progress_update(self, progress_data):
-        self.soketio.emit('response', progress_data)
+        self.socketio.emit('response', progress_data)
 
     def close_connection(self, hyperparams):
-        self.soketio.emit('experiment_done', hyperparams)
+        self.socketio.emit('experiment_done', hyperparams)

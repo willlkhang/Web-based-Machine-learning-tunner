@@ -116,6 +116,7 @@ def find_job():
     epochs = int(request.args.get('epochs'))
     learning_rate = float(request.args.get('learning_rate'))
     batch_size = int(request.args.get('batch_size'))
+
     job = Job.objects(epochs=epochs, learning_rate=learning_rate, batch_size=batch_size).first()
 
     if job is None:
