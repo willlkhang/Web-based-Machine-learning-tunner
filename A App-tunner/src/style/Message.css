@@ -1,6 +1,6 @@
 .message-container {
     display: flex;
-    color: #356168;
+    color: black;
 
     .time-comp{
         width: 20%;

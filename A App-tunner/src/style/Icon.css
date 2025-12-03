@@ -1,7 +1,7 @@
-.radioactive{
+.icon{
     font-size: 100px;
     animation: rotate 4s linear infinite;
-    color: #356168;
+    color: black;
 }
 
 @keyframes rotate {

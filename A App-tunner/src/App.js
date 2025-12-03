@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import Header from './components/Header';
 import Form from './components/Form';
-import DataTable from './components/DataTable';
+import LeadBoard from './components/LeadBoard';
 import ProgressBar from './components/ProgressBar';
 import MessageBoard from './components/MessageBoard';
 import ProgressTimer from './components/ProgressTimer';
@@ -10,6 +10,7 @@ import Icon from './components/Icon';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './App.css';
+
 
 const BACKEND_API = `http://localhost:9000`
 const socket = io(BACKEND_API); //Link to FLASK BACKEND
@@ -96,11 +97,13 @@ function App() {
 			.then((response) => response.json())
 			.then((data) => {
 
+				//console.log("Server Response:", data);
+
 				if (!data.data) {
 
 					const errorMessage = {
 						time: d.toLocaleTimeString(),
-						message: `Error: ${data.message}`, // Show the backend error
+						message: `Error: ${data.message || "Unknown server error"}`, // Show the backend error
 					};
 
 					setMessages((prevMessages) => [errorMessage, ...prevMessages]);
@@ -167,6 +170,7 @@ function App() {
 
 	return (
 		<div className='main-container'>
+			{/* <div className=''></div> */}
 			<div className='top-container'>
 				<div className='left-container'>
 					<div className='header-container'>
@@ -213,9 +217,10 @@ function App() {
 				</div>
 			</div>
 			
+			
 			<div className='bottom-container'>
 				<div className='job-board-comp'>
-					<DataTable table={table} />
+					<LeadBoard table={table} />
 				</div>
 			</div>
 		</div>

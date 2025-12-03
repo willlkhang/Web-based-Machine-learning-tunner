@@ -1,10 +1,9 @@
 .progress-bar {
 	display: flex;
 	flex-direction: row !important;
-	--bs-border-color: #316168;
-	/* height: 100%;
-	width: 100%;
-	border: 3px solid black; */
+	--bs-border-color: black;
+	border-radius: 25px;
+
 
 	.progress-block {
 		background-color: whitesmoke;
@@ -22,6 +21,6 @@
 	}
 
 	.progress-block.active {
-		background-color: #316168;
+		background-color: grey;
 	}
 }

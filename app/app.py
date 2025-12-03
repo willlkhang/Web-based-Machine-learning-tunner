@@ -90,7 +90,7 @@ def create_job():
             producer_connection.close()
 
     except ValidationError as e:
-        return make_response(jsonify({'message': e.message}))
+        return make_response(jsonify({'message': str(e)}))
     
     job_json = job.to_json()
     response = make_response(

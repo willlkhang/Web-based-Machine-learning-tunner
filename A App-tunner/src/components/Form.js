@@ -129,14 +129,14 @@ const SimpleForm=({
                             onClick={handleFormSubmit}
                         >
                             <i className='bi bi-send-fill pe-2'/>
-                            Add Job
+                            Start Training
                         </Button>
                         <Button
 							className='reset-button'
 							variant='light'
 							onClick={resetFields}
 						>
-							<i className='bi bi-trash-fill pe-2'></i>
+							<i className='bi bi-trash2-fill pe-2'></i>
 							Discard
 						</Button>
                     </div>          
