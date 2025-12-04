@@ -118,7 +118,7 @@ function App() {
 						// status only true if job is done + updated to table
 						messageContent += ` Calculated accuracy: ${job.accuracy}%`;
 					} else {
-						messageContent += ` Job currently in queue waiting to be processed`;
+						messageContent += ` The model is currently in queue waiting to be trained`;
 					}
 
 					const doneMessage = {
