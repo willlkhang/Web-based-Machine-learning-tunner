@@ -72,6 +72,7 @@ def create_job():
         message, job = Job.create_or_get_job(epochs=data['epochs'], 
                                              learning_rate=data['learning_rate'],
                                              batch_size=data['batch_size'])
+        
         if message == "New Architecture created and saved":
             print(f"Create job called with request: {data}")
 
@@ -113,6 +114,7 @@ def get_job():
 
 @app.get('/find-job')
 def find_job():
+    
     epochs = int(request.args.get('epochs'))
     learning_rate = float(request.args.get('learning_rate'))
     batch_size = int(request.args.get('batch_size'))

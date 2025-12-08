@@ -41,10 +41,11 @@ class MNISTModel:
     def __init__(self):
         pass
 
-    def train_model(self, model, trainloader, criterion, optimizer, epochs, progress_update):
+    def train_model(self, model, trainloader, criterion, optimizer, epochs, progress_update) -> None:
         start_time = time.time()  # Start time
         for epoch in range(epochs):
             running_loss = 0
+            
             for batch_id, (images, labels) in enumerate(trainloader):
                 images = images.view(images.shape[0], -1)
                 optimizer.zero_grad()
@@ -54,19 +55,22 @@ class MNISTModel:
                 optimizer.step()
                 running_loss += loss.item()
                 trainloader_len = len(trainloader)
+
                 progress_data = {
                     'epoch_number': f"Epoch [{epoch+1}/{epochs}]",
                     'completion_of_epoch': f"{round((batch_id + 1) / trainloader_len * 100, 3)}",
                     'time': f"{round(time.time() - start_time, 2)}",
                     'total_progress': f"{round((trainloader_len * epoch + batch_id + 1) / (trainloader_len * epochs) * 100, 3)}"
                 }
+                
                 progress_update(progress_data)
         return
 
 
-    def evaluate_model(self, model, testloader):
+    def evaluate_model(self, model, testloader) -> float:
         correct = 0
         total = 0
+
         with torch.no_grad():
             for images, labels in testloader:
                 images = images.view(images.shape[0], -1)
@@ -74,10 +78,11 @@ class MNISTModel:
                 _, predicted = torch.max(outputs, 1)
                 total += labels.size(0)
                 correct += (predicted == labels).sum().item()
+
         return 100 * correct / total  # Return accuracy
 
-    def save_model(self, model, path='mnist_number.pth'):
+    def save_model(self, model, path='./models/mnist_number.pth'):
         torch.save(model.state_dict(), path)
 
-    def load_model(self, model, path='mnist_number.pth'):
+    def load_model(self, model, path='./models/mnist_number.pth'):
         model.load_state_dict(torch.load(path))

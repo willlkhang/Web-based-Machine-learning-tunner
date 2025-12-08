@@ -61,6 +61,7 @@ function App() {
 			.then((response) => response.json()).then((data) => {
 
 				const job = JSON.parse(data.data);
+				
 				const messageContent = `Job configuration {epochs: ${job.epochs},`+ 
 										`learning_rate: ${job.learning_rate},`+
 										`batch_size: ${job.batch_size}} finished in ${job.run_time} seconds.`+ 
