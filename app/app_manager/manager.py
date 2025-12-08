@@ -2,7 +2,6 @@ import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-from ML_models.mnist_number import load_data, MLP, MNISTModel
 from database.job_model import Job
 
 import torch.nn as nn 
@@ -11,20 +10,22 @@ import torch.optim as optim
 import time
 import datetime
 
-from MLP import MLP
-from Trainer import Trainer
-from MyData import load_data
+from MyTorch.MLP import MLP
+from MyTorch.Trainer import Trainer
+from MyTorch.MyData import MyData
 
 class Manager:
     def __init__(self, socketio):
         self.socketio = socketio
 
-    def start_experiment(self, hyperparams, dataset='nmist_number'):
+    def start_experiment(self, hyperparams, dataset_name='nmist_number'):
         batch_size = hyperparams['batch_size']
         learning_rate = hyperparams['learning_rate']
         epochs = hyperparams['epochs']
 
-        trainloader, testloader = load_data(batch_size)
+        dataset = MyData(dataset_name, batch_size)
+
+        trainloader, testloader = dataset.loadDataset()
 
         model = MLP()
 
@@ -65,58 +66,3 @@ class Manager:
 
     def close_connection(self, hyperparams) -> None:
         self.socketio.emit('experiment_done', hyperparams)
-
-# import sys
-# import os
-
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-# from ML_models.mnist_number import load_data, MLP, MNISTModel
-# from database.job_model import Job
-
-# import torch.nn as nn 
-# import torch.optim as optim
-
-# import time
-# import datetime
-
-# class Manager:
-#     def __init__ (self, socketio):
-#         self.socketio = socketio
-
-#     def start_experiment(self, hyperparams, dataset='nmist_number'):
-#         batch_size = hyperparams['batch_size']
-#         learning_rate = hyperparams['learning_rate']
-#         epochs = hyperparams['epochs']
-
-#         trainloader, testloader = load_data(batch_size)
-        
-#         model = MLP()
-#         criterion = nn.CrossEntropyLoss()
-#         optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-#         mnistmodel = MNISTModel()
-
-#         start = time.time()
-#         mnistmodel.train_model(model, trainloader, criterion, optimizer, epochs, self.progress_update) #start training
-#         end = time.time()
-
-#         run_time = round(end-start, 3)
-        
-#         accuracy = mnistmodel.evaluate_model(model, testloader)
-#         mnistmodel.save_model(model)
-
-#         Job.objects(epochs=epochs, 
-#                       learning_rate=learning_rate, 
-#                       batch_size=batch_size).update_one(set__status=True, 
-#                                                         set__time_finished=datetime.datetime.now(datetime.UTC), 
-#                                                         set__run_time=run_time, 
-#                                                         set__accuracy=accuracy)
-        
-#         self.close_connection(hyperparams)
-        
-#         return accuracy, run_time
-
-#     def progress_update(self, progress_data):
-#         self.socketio.emit('response', progress_data)
-
-#     def close_connection(self, hyperparams):
-#         self.socketio.emit('experiment_done', hyperparams)
