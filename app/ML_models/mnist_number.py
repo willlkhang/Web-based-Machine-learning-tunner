@@ -10,6 +10,10 @@ def load_data(batch_size=64):
     trainset = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
     testset = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
 
+    # trainset = datasets.FashionMNIST(root='./data', train=True, download=True, transform=transform)
+    # testset = datasets.FashionMNIST(root='./data', train=True, download=True, transform=transform)
+
+
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True)
     testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size, shuffle=False)
 

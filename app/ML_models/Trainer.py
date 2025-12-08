@@ -13,15 +13,19 @@ class Trainer :
         self.progress_update = progress_update
         self.path = path
         
-        self.device = "gpu" if torch.cuda.is_available() else "cpu"
-        self.mode.to(self.device)
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.model.to(self.device)
 
     def train_model(self) -> None:
         start_time = time.time()  # Start time
+        self.model.train()
+
         for epoch in range(self.epochs):
             running_loss = 0
             
             for batch_id, (images, labels) in enumerate(self.trainloader):
+                images, labels = images.to(self.device), labels.to(self.device)
+
                 images = images.view(images.shape[0], -1)
 
                 self.optimizer.zero_grad()
@@ -46,10 +50,14 @@ class Trainer :
     def evaluate_model(self) -> float:
         correct = 0
         total = 0
+        self.model.eval()
 
         with torch.no_grad():
             for images, labels in self.testloader:
+                images, labels = images.to(self.device), labels.to(self.device)
+
                 images = images.view(images.shape[0], -1)
+
                 outputs = self.model(images)
                 _, predicted = torch.max(outputs, 1)
                 total += labels.size(0)
@@ -61,4 +69,4 @@ class Trainer :
         torch.save(self.model.state_dict(), self.path)
 
     def load_model(self):
-        self.model.load_state_dict(torch.load(self.path))
+        self.model.load_state_dict(torch.load(self.path, map_location=self.device))
