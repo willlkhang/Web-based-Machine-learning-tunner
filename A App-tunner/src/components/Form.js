@@ -1,6 +1,8 @@
 import { useState } from 'react' /**allow me to add state variable to my components */
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Dropdown from 'react-bootstrap/Dropdown';
+
 import ToastComponent from './Toast'; /**for tost message */
 import "../style/Form.css"
 
@@ -8,9 +10,13 @@ const SimpleForm=({
     epochs,
     lr,
     size,
+    dataset,
+
     setEpochs,
     setLr,
     setSize,
+    setDataset,
+
     submitJob,
     resetFields,
 }) => {
@@ -37,6 +43,7 @@ const SimpleForm=({
             warning += '- Batc h size must be a positive integern';
             return { warning: warning, flag: false};
         }
+
         //parsing input
         const intEpoch = parseInt(epochs);
         const floatlr = parseFloat(lr);
@@ -85,6 +92,7 @@ const SimpleForm=({
         <div className='form h-100 d-inline-block w-100 p-3 border border-5'> 
             <div>
                 <Form className='h-100 w-100'>
+
                     <Form.Group className='my-3'>
                         <Form.Label>Epochs</Form.Label>
                         <Form.Control
@@ -120,7 +128,11 @@ const SimpleForm=({
 								setSize(e.target.value);
 							}}
 						/>
-                    </Form.Group>    
+                    </Form.Group> 
+
+                    <Form.Group>
+                        <Form.Label>Dataset</Form.Label>
+                    </Form.Group>
 
                     <div className='button-container'>
                         <Button
@@ -131,6 +143,7 @@ const SimpleForm=({
                             <i className='bi bi-send-fill pe-2'/>
                             Start Training
                         </Button>
+
                         <Button
 							className='reset-button'
 							variant='light'
@@ -140,6 +153,7 @@ const SimpleForm=({
 							Discard
 						</Button>
                     </div>          
+
                 </Form>
             </div>
 

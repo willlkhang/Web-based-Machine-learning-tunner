@@ -19,6 +19,7 @@ app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 manager = Manager(socketio)
+
 load_dotenv()
 connect_to_db()
 
@@ -37,8 +38,10 @@ except pika.exceptions.AMQPConnectionError as exc:
     sys.exit(0)
 
 def callback(ch, method, properties, body):
+
     body = json.loads(body)
     print(f"Received {body}")
+
     manager.start_experiment(body)
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
@@ -47,7 +50,7 @@ thread = Thread(target=consumer_channel.start_consuming, daemon=True) #running a
 thread.start()
 
 def initialize_key(key):
-    data = {'epochs': 5, 'bath_size': 64, 'learning_rate': 3e-3}
+    data = {'epochs': 5, 'bath_size': 64, 'learning_rate': 3e-3, 'dataset_name': 'mnist_number'}
     try:
         if key == 'learning_rate':
             return float(request.json[key])
@@ -59,7 +62,7 @@ def initialize_key(key):
 
 @app.route('/')
 def home():
-    return "Hom API. This is Will's web"
+    return "Home API. This is Will's web"
 
 @app.post('/create-job')
 def create_job():
@@ -67,11 +70,13 @@ def create_job():
     data['epochs'] = initialize_key('epochs')
     data['batch_size'] = initialize_key('batch_size')
     data['learning_rate'] = initialize_key('learning_rate')
+    data['dataset_name'] = initialize_key('dataset_name')
 
     try: #save data or fetch from database
         message, job = Job.create_or_get_job(epochs=data['epochs'], 
                                              learning_rate=data['learning_rate'],
-                                             batch_size=data['batch_size'])
+                                             batch_size=data['batch_size'],
+                                             dataset_name=data['dataset_name'])
         
         if message == "New Architecture created and saved":
             print(f"Create job called with request: {data}")
@@ -118,8 +123,9 @@ def find_job():
     epochs = int(request.args.get('epochs'))
     learning_rate = float(request.args.get('learning_rate'))
     batch_size = int(request.args.get('batch_size'))
+    dataset_name = str(request.args.get('dataset_name'))
 
-    job = Job.objects(epochs=epochs, learning_rate=learning_rate, batch_size=batch_size).first()
+    job = Job.objects(epochs=epochs, learning_rate=learning_rate, batch_size=batch_size, dataset_name=dataset_name).first()
 
     if job is None:
         return make_response(jsonify({

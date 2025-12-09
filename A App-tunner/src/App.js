@@ -22,10 +22,12 @@ function App() {
 		time: 0,
 		total_progress: 0,
 	});
-
+	//user's input group
 	const [epochs, setEpochs] = useState('');
 	const [lr, setLr] = useState('');
 	const [size, setSize] = useState('');
+	const [dataset, setDataset] = useState('mnist_number');
+
 	const [table, setTable] = useState([]);
 	const [messages, setMessages] = useState([]);
 	const d = new Date();
@@ -65,7 +67,8 @@ function App() {
 				const messageContent = `Job configuration {epochs: ${job.epochs},`+ 
 										`learning_rate: ${job.learning_rate},`+
 										`batch_size: ${job.batch_size}} finished in ${job.run_time} seconds.`+ 
-										`Calculated accuracy: ${job.accuracy}%`;
+										`Calculated accuracy: ${job.accuracy}%` +
+										`On dataset: ${job.dataset_name}`;
 				const doneMessage = {
 					time: d.toLocaleTimeString(),
 					message: messageContent,
@@ -91,6 +94,7 @@ function App() {
 				epochs: epochs,
 				learning_rate: lr,
 				batch_size: size,
+				dataset_name: dataset,
 			}),
 		};
 
@@ -167,6 +171,7 @@ function App() {
 		setEpochs('');
 		setLr('');
 		setSize('');
+		setDataset('mnist_number');
 	};
 
 	return (
@@ -188,9 +193,13 @@ function App() {
 								epochs={epochs}
 								lr={lr}
 								size={size}
+								dataset={dataset}
+
 								setEpochs={setEpochs}
 								setLr={setLr}
 								setSize={setSize}
+								setDataset={setDataset}
+
 								submitJob={submitJob}
 								resetFields={resetFields}
 							/>

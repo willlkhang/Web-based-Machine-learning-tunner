@@ -21,6 +21,11 @@ db.createCollection("jobs", {
           minimum: 1,
           description: "Batch size must be >=1"
         },
+        dataset_name: {
+          bsonType: "string",
+          emin: ["mnist_number", "mnist_fashion"],
+          description: "Must be either number of fashion"
+        },
         status: {
           bsonType: "bool",
           description: "Training status: true=done, false=pending"

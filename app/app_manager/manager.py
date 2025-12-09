@@ -18,7 +18,8 @@ class Manager:
     def __init__(self, socketio):
         self.socketio = socketio
 
-    def start_experiment(self, hyperparams, dataset_name='nmist_number'):
+    def start_experiment(self, hyperparams, dataset_name='mnist_number'):
+        #dataset_name = hyperparams['dataset_name']
         batch_size = hyperparams['batch_size']
         learning_rate = hyperparams['learning_rate']
         epochs = hyperparams['epochs']
