@@ -50,14 +50,24 @@ thread = Thread(target=consumer_channel.start_consuming, daemon=True) #running a
 thread.start()
 
 def initialize_key(key):
-    data = {'epochs': 5, 'bath_size': 64, 'learning_rate': 3e-3, 'dataset_name': 'mnist_number'}
+    data = {'epochs': 5, 'batch_size': 64, 'learning_rate': 3e-3, 'dataset_name': 'mnist_number'}
     try:
-        if key == 'learning_rate':
-            return float(request.json[key])
+        value = request.json.get(key)
+        
+        if value is None:
+            raise ValueError(f"Missing key: {key}")
+
+        if key == 'dataset_name':
+            return str(value)
+        
+        elif key == 'learning_rate':
+            return float(value)
+            
         else:
-            return int(request.json[key])
-    except:
-        print(f'{key} key not found in request form. Using a default value of {data[key]}')
+            return int(value)
+            
+    except Exception as e:
+        print(f'Warning parsing {key}: {e}. Using default: {data[key]}')
         return data[key]
 
 @app.route('/')
@@ -125,7 +135,12 @@ def find_job():
     batch_size = int(request.args.get('batch_size'))
     dataset_name = str(request.args.get('dataset_name'))
 
-    job = Job.objects(epochs=epochs, learning_rate=learning_rate, batch_size=batch_size, dataset_name=dataset_name).first()
+    job = Job.objects(
+        epochs=epochs, 
+        learning_rate=learning_rate, 
+        batch_size=batch_size, 
+        dataset_name=dataset_name
+                    ).first()
 
     if job is None:
         return make_response(jsonify({

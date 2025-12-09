@@ -26,7 +26,7 @@ function App() {
 	const [epochs, setEpochs] = useState('');
 	const [lr, setLr] = useState('');
 	const [size, setSize] = useState('');
-	const [dataset, setDataset] = useState('mnist_number');
+	const [dataset, setDataset] = useState('Select Dataset');
 
 	const [table, setTable] = useState([]);
 	const [messages, setMessages] = useState([]);
@@ -70,7 +70,7 @@ function App() {
 										`Calculated accuracy: ${job.accuracy}%` +
 										`On dataset: ${job.dataset_name}`;
 				const doneMessage = {
-					time: d.toLocaleTimeString(),
+					time: new Date().toLocaleTimeString(),
 					message: messageContent,
 				};
 				// Using setState's callback to ensure doneMessage is added after submitMessage
@@ -127,7 +127,7 @@ function App() {
 					}
 
 					const doneMessage = {
-						time: d.toLocaleTimeString(),
+						time: new Date().toLocaleTimeString(),
 						message: messageContent,
 					};
 

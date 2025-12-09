@@ -21,6 +21,6 @@ class Job(Document):
             print("An Architecture of this Hyperparameter configuration is already exist")
             return "An Architecture of this Hyperparameter configuration is already exist", job
         else:
-            new_job = cls(epochs=epochs, learning_rate=learning_rate, batch_size=batch_size)
+            new_job = cls(epochs=epochs, learning_rate=learning_rate, batch_size=batch_size, dataset_name=dataset_name)
             new_job.save() #save to database
             return "New Architecture created and saved", new_job

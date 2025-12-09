@@ -105,7 +105,7 @@ const SimpleForm=({
 						/>
                     </Form.Group>
 
-                    <Form.Group className='my-3'>
+                    <Form.Group className='mb-3'>
                         <Form.Label>Learning Rate</Form.Label>
                         <Form.Control
 							type='number'
@@ -118,7 +118,7 @@ const SimpleForm=({
 						/>
                     </Form.Group>   
 
-                    <Form.Group className='my-3'>
+                    <Form.Group className='mb-3'>
                         <Form.Label>Batch Size</Form.Label>
                         <Form.Control
 							type='number'
@@ -130,8 +130,24 @@ const SimpleForm=({
 						/>
                     </Form.Group> 
 
-                    <Form.Group>
+                    <Form.Group className='mb-3'>
+
                         <Form.Label>Dataset</Form.Label>
+
+                        <Dropdown onSelect={(eventKey) => setDataset(eventKey)}>
+                        {/* <Dropdown > */}
+                            <Dropdown.Toggle variant="secondary" className="w-100 text-start d-flex justify-content-between align-items-center">
+                                {dataset === 'mnist_number' ? 'MNIST NUMBER' : 
+                                dataset === 'mnist_fashion' ? 'MNIST FASHION' : 'Select Dataset'}
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu className='w-100'>
+                                <Dropdown.Item eventKey='mnist_number'>MNIST NUMBER</Dropdown.Item>
+                                <Dropdown.Item eventKey='mnist_fashion'>MNIST FASHION</Dropdown.Item>
+                            </Dropdown.Menu>
+
+                        </Dropdown>
+                        
                     </Form.Group>
 
                     <div className='button-container'>

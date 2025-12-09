@@ -18,11 +18,12 @@ class Manager:
     def __init__(self, socketio):
         self.socketio = socketio
 
-    def start_experiment(self, hyperparams, dataset_name='mnist_number'):
+    def start_experiment(self, hyperparams):
         #dataset_name = hyperparams['dataset_name']
         batch_size = hyperparams['batch_size']
         learning_rate = hyperparams['learning_rate']
         epochs = hyperparams['epochs']
+        dataset_name = hyperparams['dataset_name']
 
         dataset = MyData(dataset_name, batch_size)
 
@@ -33,7 +34,10 @@ class Manager:
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-        path = './models/mnist_number.pth'
+        if dataset_name == "mnist_number":
+            path = './models/mnist_number.pth'
+        elif dataset_name == "mnist_fashion":
+            path = './models/mnist_fashion.pth'
 
         mlp_trainer = Trainer(model, trainloader, testloader, criterion, optimizer, epochs, self.progress_update, path)
 
@@ -49,7 +53,8 @@ class Manager:
         Job.objects(
                 epochs=epochs, 
                 learning_rate=learning_rate, 
-                batch_size=batch_size
+                batch_size=batch_size,
+                dataset_name=dataset_name
                     ).update_one(   
                             set__status=True, 
                             set__time_finished=datetime.datetime.now(datetime.UTC), 

@@ -13,9 +13,12 @@ const LeadBoard = ({ table }) => {
 
 	const cleanData = table.map((item) => ({
 		id: item._id.$oid,
+
 		epochs: item.epochs,
 		learning_rate: item.learning_rate,
 		batch_size: item.batch_size,
+		dataset_name: item.dataset_name,
+
 		accuracy: item.accuracy,
 		run_time: item.run_time,
 	}));
@@ -43,6 +46,7 @@ const LeadBoard = ({ table }) => {
 							<th>Epochs</th>
 							<th>Learning Rate</th>
 							<th>Batch Size</th>
+							<th>Dataset Name</th>
 							<th>Accuracy (%)</th>
 							<th>Run Time (seconds)</th>
 						</tr>
@@ -53,6 +57,8 @@ const LeadBoard = ({ table }) => {
 								<td className={getRowClass(index)}>{row.epochs}</td>
 								<td className={getRowClass(index)}>{row.learning_rate}</td>
 								<td className={getRowClass(index)}>{row.batch_size}</td>
+								<td className={getRowClass(index)}>{row.dataset_name}</td>
+
 								<td className={getRowClass(index)}>{row.accuracy}</td>
 								<td className={getRowClass(index)}>{row.run_time}</td>
 							</tr>
