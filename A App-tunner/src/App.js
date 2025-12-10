@@ -30,7 +30,6 @@ function App() {
 
 	const [table, setTable] = useState([]);
 	const [messages, setMessages] = useState([]);
-	const d = new Date();
 
 	const getJobs = () => {
 		const url = `${BACKEND_API}/get-job`;
@@ -64,10 +63,10 @@ function App() {
 
 				const job = JSON.parse(data.data);
 				
-				const messageContent = `Job configuration {epochs: ${job.epochs},`+ 
+				const messageContent =  `Hyperparam configuration {epochs: ${job.epochs},`+ 
 										`learning_rate: ${job.learning_rate},`+
 										`batch_size: ${job.batch_size}} finished in ${job.run_time} seconds.`+ 
-										`Calculated accuracy: ${job.accuracy}%` +
+										`Calculated accuracy: ${job.accuracy}% ` +
 										`On dataset: ${job.dataset_name}`;
 				const doneMessage = {
 					time: new Date().toLocaleTimeString(),
@@ -102,13 +101,13 @@ function App() {
 			.then((response) => response.json())
 			.then((data) => {
 
-				//console.log("Server Response:", data);
+				console.log("Server Response:", data);
 
 				if (!data.data) {
 
 					const errorMessage = {
-						time: d.toLocaleTimeString(),
-						message: `Error: ${data.message || "Unknown server error"}`, // Show the backend error
+						time: new Date().toLocaleTimeString(),
+						message: `Error: ${data.message ? data.message : "Unknown server error"}`, // Show the backend error
 					};
 
 					setMessages((prevMessages) => [errorMessage, ...prevMessages]);

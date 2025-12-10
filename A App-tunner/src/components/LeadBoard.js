@@ -57,7 +57,9 @@ const LeadBoard = ({ table }) => {
 								<td className={getRowClass(index)}>{row.epochs}</td>
 								<td className={getRowClass(index)}>{row.learning_rate}</td>
 								<td className={getRowClass(index)}>{row.batch_size}</td>
-								<td className={getRowClass(index)}>{row.dataset_name}</td>
+								<td className={getRowClass(index)}>{
+												row.dataset_name === 'mnist_number' ? 'MNIST NUMBER' : 
+												row.dataset_name === 'mnist_fashion' ? 'MNIST FASHION' : ''}</td>
 
 								<td className={getRowClass(index)}>{row.accuracy}</td>
 								<td className={getRowClass(index)}>{row.run_time}</td>
